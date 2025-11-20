@@ -1,6 +1,12 @@
 // N8N Configuration
+const isDevelopment = process.env.NODE_ENV === 'development'
+
+const N8N_BASE_URL = isDevelopment
+  ? 'http://localhost:5678'
+  : 'https://businesscase-n8n-redis-production.up.railway.app'
+
 export const n8nConfig = {
-  baseUrl: process.env.NEXT_PUBLIC_N8N_BASE_URL || 'http://localhost:5678',
+  baseUrl: N8N_BASE_URL,
   webhooks: {
     login: '/webhook/login',
     coletaResposta: '/webhook-test/coleta-resposta',
