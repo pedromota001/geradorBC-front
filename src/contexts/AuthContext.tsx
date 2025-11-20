@@ -4,6 +4,7 @@ import React, { createContext, useContext, useState, ReactNode } from 'react'
 
 interface AuthContextType {
   isAuthenticated: boolean
+  userEmail: string | null
   login: (email: string, identifier: string) => Promise<boolean>
   logout: () => void
 }
@@ -12,10 +13,11 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [userEmail, setUserEmail] = useState<string | null>(null)
 
   const login = async (email: string, identifier: string) => {
     try {
-      const response = await fetch('http://localhost:5678/webhook-test/chatbot-conversa', {
+      const response = await fetch('http://localhost:5678/webhook/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -24,12 +26,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       })
 
       const data = await response.json()
-
-      if (data.isAcessKeyValid === true) {
+      console.log('data', data)
+      if (data.isAccessKeyValid === true) {
         setIsAuthenticated(true)
+        setUserEmail(email)
         return true
       } else {
         setIsAuthenticated(false)
+        setUserEmail(null)
         return false
       }
     } catch (error) {
@@ -41,10 +45,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const logout = () => {
     setIsAuthenticated(false)
+    setUserEmail(null)
   }
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, userEmail, login, logout }}>
       {children}
     </AuthContext.Provider>
   )
