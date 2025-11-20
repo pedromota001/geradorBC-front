@@ -87,7 +87,7 @@ export default function ChatPage() {
     setMessages((prev) => [...prev, userMessage])
 
     try {
-      const response = await fetch(`${N8N_BASE_URL}/webhook-test/coleta-resposta`, {
+      const response = await fetch(`${N8N_BASE_URL}/webhook/coleta-resposta`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
