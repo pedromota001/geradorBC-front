@@ -1,7 +1,8 @@
 'use client'
 
 import React, { createContext, useContext, useState, ReactNode } from 'react'
-import { getN8nUrl } from '@/config/n8n'
+
+const N8N_BASE_URL = 'https://businesscase-n8n-redis-production.up.railway.app'
 
 interface AuthContextType {
   isAuthenticated: boolean
@@ -18,7 +19,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = async (email: string, identifier: string) => {
     try {
-      const response = await fetch(getN8nUrl('login'), {
+      const response = await fetch(`${N8N_BASE_URL}/webhook/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
