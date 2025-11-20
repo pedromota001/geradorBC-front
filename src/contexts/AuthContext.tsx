@@ -1,6 +1,7 @@
 'use client'
 
 import React, { createContext, useContext, useState, ReactNode } from 'react'
+import { getN8nUrl } from '@/config/n8n'
 
 interface AuthContextType {
   isAuthenticated: boolean
@@ -17,7 +18,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = async (email: string, identifier: string) => {
     try {
-      const response = await fetch('http://localhost:5678/webhook/login', {
+      const response = await fetch(getN8nUrl('login'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

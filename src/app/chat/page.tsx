@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { useAuth } from '@/contexts/AuthContext'
 import { ChatMessage } from '@/components/ChatMessage'
 import { ChatInput } from '@/components/ChatInput'
+import { getN8nUrl } from '@/config/n8n'
 
 interface Message {
   id: string
@@ -37,7 +38,7 @@ export default function ChatPage() {
 
   const loadChatHistory = async () => {
     try {
-      const response = await fetch('http://localhost:5678/webhook/coleta-respostaERROR', {
+      const response = await fetch(getN8nUrl('coletaRespostaError'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -85,7 +86,7 @@ export default function ChatPage() {
     setMessages((prev) => [...prev, userMessage])
 
     try {
-      const response = await fetch('http://localhost:5678/webhook/coleta-resposta', {
+      const response = await fetch(getN8nUrl('coletaResposta'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -103,14 +104,14 @@ export default function ChatPage() {
         console.log('Entrando na geração de documentos')
         setIsGenerating(true)
         try {
-          const fileResponse = await fetch('http://localhost:5678/webhook/gerar-documentos', {
+          const fileResponse = await fetch(getN8nUrl('gerarDocumentos'), {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
             body: JSON.stringify({ email: userEmail }),
           })
-
+          console.log('')
           console.log('Status da resposta:', fileResponse.status)
           console.log('Content-Type:', fileResponse.headers.get('Content-Type'))
 

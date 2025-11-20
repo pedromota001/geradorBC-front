@@ -101,13 +101,29 @@ Instruções específicas de deploy serão adicionadas conforme a infraestrutura
 
 ## 🔐 Variáveis de Ambiente
 
-Veja o arquivo `.env.example` para as variáveis necessárias:
+### Desenvolvimento Local
 
-- **N8N_WEBHOOK_URL** - URL do webhook n8n (integração futura)
-- **N8N_HEADER_SECRET** - Secret para autenticação do webhook (integração futura)
-- **COGNITO_CLIENT_ID** - ID do cliente AWS Cognito (autenticação futura)
-- **COGNITO_CLIENT_SECRET** - Secret do cliente AWS Cognito (autenticação futura)
-- **COGNITO_ISSUER** - URL do issuer Cognito (autenticação futura)
+Para desenvolvimento local, crie um arquivo `.env.local` na raiz do projeto:
+
+```bash
+cp .env.example .env.local
+```
+
+**Variáveis disponíveis:**
+
+- **NEXT_PUBLIC_N8N_BASE_URL** - URL base do n8n (padrão: `http://localhost:5678`)
+  - Local: `http://localhost:5678`
+  - Produção: `https://seu-n8n-domain.com`
+
+**Nota:** O prefixo `NEXT_PUBLIC_` indica que a variável é exposta ao cliente (navegador). Use apenas para URLs públicas.
+
+### Produção
+
+Para produção, crie um arquivo `.env.production` com a URL do seu n8n deployado:
+
+```bash
+NEXT_PUBLIC_N8N_BASE_URL=https://seu-n8n-domain.com
+```
 
 ## 📝 Status Atual
 
